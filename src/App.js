@@ -39,36 +39,22 @@ const AppContent = () => {
 	
 		const prompt = `Generate a wedding invitation design with theme: ${theme}, details: ${details}, additional info: ${additionalInfo}`;
 	
-		try {
-		  const response = await fetch("https://api.openai.com/v1/images/generations", {
-			method: "POST",
-			headers: {
-			  "Content-Type": "application/json",
-			Authorization: `Bearer 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`,
-			},
-			body: JSON.stringify({
-			  prompt,
-			  n: 1,
-			  size: "1024x1024",
-			}),
-		  });
-	  
-		  const data = await response.json();
-	  
-		  if (response.ok && data.data && data.data[0]?.url) {
-			setImageURL(data.data[0].url);
-		  } else {
-			setError(data.error?.message || "Failed to generate image. Please try again.");
-		  }
-		} catch (err) {
-		  console.error(err);
-		  setError("Unexpected error occurred. Please try again.");
-		} finally {
-		  setLoading(false);
-		}
-	  };
+		const handleGenerate = async () => {
+			setLoading(true);
+			setError('');
+			setImageURL('');
 	
-
+			try {
+				const response = await foodApi.post('/invitations/generate', { theme, details, additionalInfo });
+				setImageURL(response.data.imageUrl);
+			} catch (err) {
+				console.error(err);
+				setError('Unexpected error occurred. Please try again.');
+			} finally {
+				setLoading(false);
+			}
+		};
+	
 	const handleCopyLink = () => {
 		if (imageURL) {
 			navigator.clipboard.writeText(imageURL);
