@@ -1,43 +1,61 @@
-import { AxiosError } from 'axios';
-import foodApi from '../api/foodAxios';
+// src/services/foodService.js
+const API_BASE_URL = 'https://food-service-backend-production.up.railway.app/api';
 
-const handleError = (error, context) => {
-	if (error instanceof AxiosError) {
-		console.error(`Failed to ${context}:`, error.response?.data || error.message);
-	} else {
-		console.error(`Failed to ${context}:`, error);
-	}
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    const errorData = await response.json().catch(e => ({ message: 'Could not parse error response' }));
+    console.error('Error response:', errorData);
+    throw new Error(errorData.message || 'Request failed');
+  }
+  return response.json();
+};
 
-	throw error;
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    'Authorization': token ? `Bearer ${token}` : '',
+    'Content-Type': 'application/json',
+  };
 };
 
 export const foodService = {
-	getMenuItems: async () => {
-		try {
-			const { data } = await foodApi.get('/foods');
-			return data;
-		} catch (error) {
-			handleError(error, 'fetch menu items');
-		}
-	},
+  getMenuItems: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/foods`, {
+        headers: getAuthHeaders(),
+      });
+      return handleResponse(response);
+    } catch (error) {
+      console.error('Failed to fetch menu items:', error);
+      throw error;
+    }
+  },
 
-	saveSelections: async (selections) => {
-		try {
-			const { data } = await foodApi.post('/selections', selections);
-			return data;
-		} catch (error) {
-			handleError(error, 'save selections');
-		}
-	},
+  saveSelections: async (selections) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/selections`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(selections),
+      });
+      return handleResponse(response);
+    } catch (error) {
+      console.error('Failed to save selections:', error);
+      throw error;
+    }
+  },
 
-	getSelections: async () => {
-		try {
-			const { data } = await foodApi.get('/selections');
-			return data;
-		} catch (error) {
-			handleError(error, 'get selections');
-		}
-	},
+  getSelections: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/selections`, {
+        headers: getAuthHeaders(),
+      });
+      return handleResponse(response);
+    } catch (error) {
+      console.error('Failed to get selections:', error);
+      throw error;
+    }
+  }
 };
 
 export default foodService;
