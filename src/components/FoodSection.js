@@ -1,4 +1,3 @@
-// FoodSection.js
 import React, { useState, useEffect } from 'react';
 import { Plus, Loader2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
@@ -23,11 +22,7 @@ const FoodSection = () => {
   });
 
   useEffect(() => {
-    if (token) {
-      loadFoods();
-    } else {
-      setLoading(false);
-    }
+    loadFoods();
   }, [token]);
 
   const loadFoods = async () => {
@@ -35,14 +30,7 @@ const FoodSection = () => {
       setLoading(true);
       setError(null);
       
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      };
-      
-      const response = await foodApi.get('/foods', config);
+      const response = await foodApi.get('/foods');
       setFoods(response.data);
     } catch (err) {
       console.error('Load foods error:', err);
@@ -62,19 +50,17 @@ const FoodSection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!token) {
+      setError('Please login to add food items');
+      return;
+    }
+
     setSaving(true);
     setError(null);
     setSuccessMessage('');
 
     try {
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      };
-
-      const response = await foodApi.post('/foods', newFood, config);
+      const response = await foodApi.post('/foods', newFood);
       setSuccessMessage(`Successfully added ${response.data.name} to the menu!`);
       setNewFood({
         name: '',
@@ -93,16 +79,6 @@ const FoodSection = () => {
     }
   };
 
-  if (!token || !user) {
-    return (
-      <Card className="w-full max-w-2xl mx-auto">
-        <CardContent className="flex items-center justify-center py-12">
-          <p>Please login to manage food items.</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   if (loading) {
     return (
       <Card className="w-full max-w-2xl mx-auto">
@@ -116,7 +92,7 @@ const FoodSection = () => {
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>Add New Food Item</CardTitle>
+        <CardTitle>Food Items</CardTitle>
       </CardHeader>
       <CardContent>
         {error && (
@@ -210,7 +186,7 @@ const FoodSection = () => {
             ) : (
               <>
                 <Plus className="mr-2 h-4 w-4" />
-                Add Food Item
+                {token ? 'Add Food Item' : 'Login to Add Food Item'}
               </>
             )}
           </Button>
