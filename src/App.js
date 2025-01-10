@@ -44,7 +44,7 @@ const AppContent = () => {
 			method: "POST",
 			headers: {
 			  "Content-Type": "application/json",
-			  Authorization: `Bearer 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`,
+			Authorization: `Bearer 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`,
 			},
 			body: JSON.stringify({
 			  prompt,
