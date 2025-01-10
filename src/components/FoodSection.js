@@ -1,8 +1,10 @@
+// FoodSection.js
 import React, { useState, useEffect } from 'react';
 import { Plus, Loader2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Alert, AlertDescription } from './ui/alert';
+import { useAuth } from '../context/AuthContext';
 import foodApi from '../api/foodAxios';
 
 const FoodSection = () => {
@@ -11,7 +13,7 @@ const FoodSection = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, token } = useAuth();
 
   const [newFood, setNewFood] = useState({
     name: '',
@@ -21,32 +23,30 @@ const FoodSection = () => {
   });
 
   useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem('token');
-      setIsAuthenticated(!!token);
-      if (token) {
-        loadFoods();
-      } else {
-        setLoading(false);
-      }
-    };
-    
-    checkAuth();
-  }, []);
+    if (token) {
+      loadFoods();
+    } else {
+      setLoading(false);
+    }
+  }, [token]);
 
   const loadFoods = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await foodApi.get('/foods');
+      
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+      
+      const response = await foodApi.get('/foods', config);
       setFoods(response.data);
     } catch (err) {
       console.error('Load foods error:', err);
       setError('Failed to load food items. Please try again.');
-      if (err.response?.status === 401) {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-      }
     } finally {
       setLoading(false);
     }
@@ -67,7 +67,14 @@ const FoodSection = () => {
     setSuccessMessage('');
 
     try {
-      const response = await foodApi.post('/foods', newFood);
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const response = await foodApi.post('/foods', newFood, config);
       setSuccessMessage(`Successfully added ${response.data.name} to the menu!`);
       setNewFood({
         name: '',
@@ -76,23 +83,17 @@ const FoodSection = () => {
         category: ''
       });
       
-      loadFoods();
+      await loadFoods();
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error('Save error:', err);
-      if (err.response?.status === 401) {
-        setError('Please log in again to continue.');
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-      } else {
-        setError(err.response?.data?.message || 'Failed to add food item. Please try again.');
-      }
+      setError(err.response?.data?.message || 'Failed to add food item. Please try again.');
     } finally {
       setSaving(false);
     }
   };
 
-  if (!isAuthenticated) {
+  if (!token || !user) {
     return (
       <Card className="w-full max-w-2xl mx-auto">
         <CardContent className="flex items-center justify-center py-12">
