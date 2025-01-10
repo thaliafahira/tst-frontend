@@ -1,0 +1,370 @@
+/* Global styles */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f9fafb;
+}
+
+/* Top Navigation Bar */
+nav {
+	width: 100%;
+	padding: 16px 32px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #fbd0da;
+	background-color: white;
+}
+
+nav .flex {
+	display: flex;
+}
+
+nav .items-center {
+	align-items: center;
+}
+
+/* Logo */
+nav .bg-pink-50 img {
+	width: 100px; /* Adjust the width to make the logo smaller */
+	height: auto; /* Maintain aspect ratio */
+}
+
+/* Search Bar */
+nav .flex-1.mx-12 {
+	margin-left: -500px; /* Adjust this value to move the search bar to the left */
+}
+input[type='text'] {
+	width: 250%;
+	background-color: #f3f4f6;
+	border-radius: 12px;
+	padding: 12px 48px 12px 48px;
+	font-size: 18px;
+	color: #9ca3af;
+	border: 1px solid #e5e7eb;
+}
+
+input[type='text']:focus {
+	outline: none;
+	border-color: #f43f5e;
+}
+
+nav .relative {
+	position: relative;
+}
+
+svg {
+	position: absolute;
+	left: 16px;
+	top: 12px;
+	height: 20px;
+	width: 20px;
+	color: #9ca3af;
+}
+
+/* Auth Buttons */
+/* Auth Buttons */
+nav .flex.gap-4 {
+	gap: 24px; /* Increase gap to 24px or any value that fits your design */
+}
+
+button {
+	padding: 12px 32px;
+	font-size: 18px;
+	font-weight: 300;
+	border-radius: 8px;
+	transition: all 0.3s ease;
+}
+
+button:hover {
+	transform: translateY(-2px);
+}
+
+button.text-rose-300 {
+	color: #f43f5e;
+	border: 1px solid #f43f5e;
+	background-color: transparent;
+}
+
+button.text-rose-300:hover {
+	background-color: #fef2f2;
+}
+
+button.bg-rose-200 {
+	background-color: #fbbf24;
+	color: white;
+	border: none;
+}
+
+button.bg-rose-200:hover {
+	background-color: #f59e0b;
+}
+
+/* Secondary Navigation */
+/* Secondary Navigation */
+nav ul {
+	display: flex;
+	gap: 32px;
+}
+
+nav ul li {
+	list-style-type: none; /* Remove default list styling */
+}
+
+nav ul li a {
+	color: #f43f5e; /* Pink color */
+	font-size: 18px;
+	font-weight: 500; /* Slightly bolder text for a friendly feel */
+	text-decoration: none;
+	padding: 10px 20px;
+	border-radius: 12px; /* Rounded corners for each link */
+	/* Very light pink */
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	display: inline-block;
+}
+
+nav ul li a:hover {
+	color: white;
+	background-color: #f43f5e; /* Darker pink on hover */
+	transform: translateY(-3px); /* Small lift effect */
+}
+
+.carousel-container {
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+	margin: auto;
+	overflow: hidden;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	position: relative;
+}
+
+.slides {
+	display: flex;
+	transition: transform 2s ease-in-out;
+}
+
+.slide {
+	width: 100%;
+	flex-shrink: 0;
+	position: relative;
+}
+
+.carousel-image {
+	width: 100%;
+	height: 300px;
+	object-fit: cover;
+}
+
+.text-overlay {
+	position: absolute;
+	bottom: 20px; /* Positioned closer to the bottom */
+	left: 50%;
+	transform: translateX(-50%);
+	color: white;
+	text-align: center;
+	padding: 15px;
+	border-radius: 8px;
+}
+
+.text-overlay h2 {
+	font-size: 1.5rem;
+	margin-bottom: 8px; /* Creates space between title and description */
+}
+
+.text-overlay p {
+	font-size: 1rem;
+	margin-top: 0; /* Ensures no extra space is added above the description */
+}
+
+.text-xl {
+	font-size: 1.25rem;
+}
+
+.text-gray-500 {
+	color: white;
+}
+
+/* Wedding Services Section */
+.service-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	background-color: white;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+	transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h3 {
+	color: #4b5563;
+	font-size: 1.125rem;
+	font-weight: 500;
+}
+
+.service-card button {
+	width: 100%;
+	padding: 12px;
+	font-size: 1rem;
+	font-weight: 500;
+	color: white;
+	background-color: #f43f5e;
+	border-radius: 6px;
+	border: none;
+	transition: background-color 0.3s ease;
+}
+
+.service-card button:hover {
+	background-color: #e11d48;
+}
+
+/* Wedding Invitation Customization Section */
+.bg-pink-50 {
+	background-color: #fdf2f8;
+	border-radius: 8px;
+	padding: 24px;
+}
+
+.bg-pink-50 h2 {
+	color: #f43f5e;
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin-bottom: 16px;
+}
+
+.space-y-6 > div {
+	margin-bottom: 16px;
+}
+
+.space-y-6 label {
+	display: block;
+	font-size: 1rem;
+	color: #6b7280;
+	margin-bottom: 8px;
+}
+
+.space-y-6 input,
+.space-y-6 select {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #e5e7eb;
+	border-radius: 6px;
+	font-size: 1rem;
+	color: #374151;
+	background-color: #ffffff;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.space-y-6 input:focus,
+.space-y-6 select:focus {
+	border-color: #f43f5e;
+	box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.3);
+	outline: none;
+}
+
+button.w-full {
+	width: 100%;
+	padding: 12px;
+	font-size: 1rem;
+	font-weight: 500;
+	background-color: #f43f5e;
+	color: white;
+	border-radius: 6px;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.w-full:hover {
+	background-color: #e11d48;
+	transform: translateY(-2px);
+}
+
+.mt-12 {
+	margin-top: 48px;
+}
+
+.mt-6 {
+	margin-top: 24px;
+}
+
+.border-dashed {
+	border-style: dashed;
+}
+
+.text-gray-400 {
+	color: #9ca3af;
+}
+
+.text-gray-600 {
+	color: #4b5563;
+}
+
+.text-gray-500 {
+	color: #6b7280;
+}
+
+/* Container for the grid */
+.content-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 20px;
+	padding: 20px;
+}
+
+/* Each card in the grid */
+.option-card {
+	background-color: #f9f9f9;
+	border: 1px solid #e0e0e0;
+	border-radius: 10px;
+	padding: 20px;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.option-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Title inside the card */
+.option-card h3 {
+	font-size: 1.5rem;
+	color: #333;
+	margin-bottom: 15px;
+}
+
+/* Placeholder for the image */
+.placeholder-image {
+	width: 100%;
+	height: 150px;
+	background-color: #e0e0e0;
+	border-radius: 8px;
+	margin-bottom: 15px;
+}
+
+/* Button inside the card */
+.next-button {
+	display: inline-block;
+	background-color: #ff6b6b;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 8px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+	background-color: #ff4b4b;
+}
